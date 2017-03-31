@@ -39,6 +39,9 @@ const Sidebar = (props) => {
           })
         }
       </ul>
+      <section>
+        <h4><Link className="" to="/lyrics">Lyrics</Link></h4>
+      </section>
     </sidebar>
   );
 }
