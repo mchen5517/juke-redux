@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 const Albums = (props) => {
-
-  const albums = props.albums;
+  const albums = props.albums.albums;
   const selectAlbum = props.selectAlbum;
 
   return (

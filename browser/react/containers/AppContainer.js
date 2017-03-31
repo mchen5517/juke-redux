@@ -13,8 +13,9 @@ import Player from '../components/Player';
 import store from '../store';
 
 import { convertAlbum, convertAlbums, convertSong, skip } from '../utils';
+import { toggle, toggleOne, load, startSong, play, pause, next, prev, setProgress } from '../action-creators/player';
+import { fetchAlbums, fetchAlbum } from '../action-creators/albums';
 
-import { toggle, toggleOne, load, startSong, play, pause, next, prev } from '../action-creators/player';
 
 export default class AppContainer extends Component {
 
@@ -36,14 +37,15 @@ export default class AppContainer extends Component {
 
   componentDidMount () {
 
-    Promise
-      .all([
-        axios.get('/api/albums/'),
-        axios.get('/api/artists/'),
-        axios.get('/api/playlists')
-      ])
-      .then(res => res.map(r => r.data))
-      .then(data => this.onLoad(...data));
+    // Promise
+    //   .all([
+    //     axios.get('/api/albums/'),
+    //     axios.get('/api/artists/'),
+    //     axios.get('/api/playlists')
+    //   ])
+    //   .then(res => res.map(r => r.data))
+    //   .then(data => this.onLoad(...data));
+    store.dispatch(fetchAlbums());
 
     AUDIO.addEventListener('ended', () =>
       this.next());
@@ -102,15 +104,11 @@ export default class AppContainer extends Component {
   }
 
   setProgress (progress) {
-    this.setState({ progress: progress });
+    store.dispatch(setProgress(progress));
   }
 
   selectAlbum (albumId) {
-    axios.get(`/api/albums/${albumId}`)
-      .then(res => res.data)
-      .then(album => this.setState({
-        selectedAlbum: convertAlbum(album)
-      }));
+    store.dispatch(fetchAlbum(albumId));  
   }
 
   selectArtist (artistId) {

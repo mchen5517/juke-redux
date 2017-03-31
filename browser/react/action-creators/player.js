@@ -2,7 +2,8 @@ import {
   START_PLAYING,
   STOP_PLAYING,
   SET_CURRENT_SONG,
-  SET_LIST
+  SET_LIST,
+  SET_PROGRESS
 } from '../constants';
 import AUDIO from '../audio';
 import { convertAlbum, convertAlbums, convertSong, skip } from '../utils';
@@ -10,6 +11,8 @@ import { convertAlbum, convertAlbums, convertSong, skip } from '../utils';
 const startPlaying = () => ({ type: START_PLAYING });
 
 const stopPlaying = () => ({ type: STOP_PLAYING });
+
+const setProgressHelper = (progress) => ({progress, type: SET_PROGRESS});
 
 const setCurrentSong = (currentSong) => ({ 
   type: SET_CURRENT_SONG,
@@ -67,4 +70,7 @@ export const prev = () =>
   (dispatch, getState) => {
     dispatch(startSong(...skip(-1, getState().player)));
 };
-  
+
+export const setProgress = (progress) => dispatch => {
+  dispatch(setProgressHelper(progress));
+};
