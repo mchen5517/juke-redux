@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import store from '../store';
 import Lyrics from '../components/Lyrics';
 import axios from 'axios';
-import setLyrics from '../action-creators/lyrics';
+import { setLyrics, fetchLyrics } from '../action-creators/lyrics';
 
 class LyricsContainer extends Component{
     constructor(props){
@@ -39,13 +39,7 @@ class LyricsContainer extends Component{
 
         event.preventDefault();
         if (this.state.artistQuery && this.state.songQuery) {
-            axios.get(`/api/lyrics/${this.state.artistQuery}/${this.state.songQuery}`)
-            .then((res) => res.data.lyric)
-            .then((text) => {
-                store.dispatch(setLyrics(text));
-            }).catch(() => {
-                store.dispatch(setLyrics('SONG NOT FOUND'));
-            });
+            store.dispatch(fetchLyrics(this.state.artistQuery, this.state.songQuery));
         }
     }
 
